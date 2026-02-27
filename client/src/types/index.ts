@@ -21,7 +21,6 @@ export interface Version {
 }
 
 export interface Project {
-    length: number;
     id: string;
     name: string;
     initial_prompt: string;
