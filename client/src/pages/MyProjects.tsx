@@ -1,8 +1,9 @@
 import React, { useEffect, useState } from "react";
 import type { Project } from "../types";
-import { Loader2Icon, PlusIcon } from "lucide-react";
+import { Loader2Icon, PlusIcon, TrashIcon } from "lucide-react";
 import { useNavigate } from "react-router-dom";
 import { dummyProjects } from "../assets/assets";
+import Footer from "../components/Footer";
 
 const MyProjects = () => {
   const [loading, setLoading] = useState(true);
@@ -17,11 +18,15 @@ const MyProjects = () => {
     }, 1000);
   };
 
+  const deleteProject = async (projectId: string) => {
+}
+
   useEffect(() => {
     fetchProjects();
   }, []);
 
   return (
+    <>
     <div className="px-4 md:px-16 lg:px-24 xl:px-32">
       {loading ? (
         <div className="flex items-center justify-center h-[80vh]">
@@ -29,7 +34,7 @@ const MyProjects = () => {
         </div>
       ) : projects.length > 0 ? (
         <div className="py-10 min-h-[80vh]">
-          {/* HEADER */}
+
           <div className="flex items-center justify-between mb-12">
             <h1 className="text-2xl font-medium text-white">
               My Projects
@@ -47,18 +52,17 @@ const MyProjects = () => {
           {/* GRID */}
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
             {projects.map((project) => (
-              <div
+              <div onClickCapture={()=> navigate(`/projects/${project.id}`)}
                 key={project.id}
                 onClick={() => navigate(`/project/${project.id}`)}
                 className="group cursor-pointer bg-gray-800/50 rounded-lg overflow-hidden border border-gray-700/50 hover:border-indigo-500/50 hover:bg-gray-800/70 transition-all flex flex-col"
               >
-                {/* ✅ FIXED PREVIEW AREA (NO GAP EVER) */}
                 <div className="relative w-full aspect-video bg-gray-900 overflow-hidden border-b border-gray-800">
                   {project.current_code ? (
                     <iframe
                       srcDoc={project.current_code}
                       sandbox="allow-scripts allow-same-origin"
-                      className="absolute top-0 left-0 w-[1700px] h-[800px] origin-top-left pointer-events-none"
+                      className="absolute top-0 left-0 w-full h-full origin-top-left pointer-events-none"
                       style={{
                         transform: "scale(0.25)",
                       }}
@@ -77,6 +81,16 @@ const MyProjects = () => {
                     <button className="px-2.5 py-0.5 mt-1 ml-2 text-xs bg-gray-800 border-gray-700 rounded-full">Website</button>
                     </div>
                     <p className="text-gray-400 mt-1 text-sem line-clamp-2">{project.initial_prompt}</p>
+                    <div onClick={(e)=>e.stopPropagation()} className="flex justify-between items-center mt-6">
+                      <span className="text-xs text-gray-500">{new Date(project.createdAt).toLocaleDateString()}</span>
+                      <div className="flex gap-3 text-white text-sm">
+                        <button onClick={()=> navigate(`/preview/${project.id}`)} className="px-3 py-1.5 bg-white/10 hover:bg-white/15 rounded-md transition-all">Preview</button>
+                        <button onClick={()=> navigate(`/projects/${project.id}`)} className="px-3 py-1.5 bg-white/10 hover:bg-white/15 rounded-md transition-colors">Open</button>
+                      </div>
+                      </div>
+                </div>
+                <div onClick={e=> e.stopPropagation()}>
+                  <TrashIcon className="absolute top-3 right-3 scale-0 group-hover:scale-100 bg-white p-1.5 size-7 rounded text-red-500 text-xl cursor-pointer transition-all" onClick={()=>deleteProject(project.id) }/>
                 </div>
               </div>
             ))}
@@ -98,6 +112,8 @@ const MyProjects = () => {
         </div>
       )}
     </div>
+    <Footer/>
+    </>
   );
 };
 
