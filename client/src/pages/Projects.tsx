@@ -1,6 +1,6 @@
 import React, { use, useEffect, useState } from 'react'
 import { useNavigate, useParams } from 'react-router-dom'
-import { Loader2Icon } from 'lucide-react'
+import { Loader2Icon, MessageSquareIcon, XIcon } from 'lucide-react'
 import { dummyConversations, dummyProjects } from '../assets/assets'
 import type { Project } from '../types'
 
@@ -42,7 +42,28 @@ const Projects = () => {
   }
 
   return project ? (
-    <div>Projects</div>
+    <div className='flex flex-col h-screen w-full bg-gray-900 text-white'>
+  {/* builder navbar */}
+    <div className='flex max-sm:flex-col sm:items-center gap-4 px-4 py-2 no-scrollbar'>
+    {/*left*/}
+    <div className='flex items-center gap-2 sm:min-w-90 text-nowrap'>
+      <img src="/favicon.svg" alt="logo" className='h-6 cursor-pointer' onClick={()=> navigate('/')} />
+      <div className='max-w-64 sm:max-w-xs'>
+        <p className='text-sm text-medium capitalize truncate'> {project.name}</p>
+        <p className='text-xs text-gray-400 -mt-0.5'>Previewing last saved version</p>
+      </div>
+      <div className='sm:hidden flex-1 flex justify-end'>
+        {isMenuOpen ? 
+        <MessageSquareIcon onClick={() => setIsMenuOpen(false)}className='size-6 cursor-pointer' />
+        : <XIcon onClick={() => setIsMenuOpen(true)} className='size-6 cursor-pointer' />}
+      </div>
+    </div>
+    {/*middle*/}
+    <div></div>
+    {/*right*/}
+    <div></div>
+    </div>
+    </div>
   )
   :
   (
