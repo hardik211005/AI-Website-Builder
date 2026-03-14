@@ -54,7 +54,7 @@ const MyProjects = () => {
             {projects.map((project) => (
               <div onClickCapture={()=> navigate(`/projects/${project.id}`)}
                 key={project.id}
-                onClick={() => navigate(`/project/${project.id}`)}
+                onClick={() => navigate(`/projects/${project.id}`)}
                 className="group cursor-pointer bg-gray-800/50 rounded-lg overflow-hidden border border-gray-700/50 hover:border-indigo-500/50 hover:bg-gray-800/70 transition-all flex flex-col"
               >
                 <div className="relative w-full aspect-video bg-gray-900 overflow-hidden border-b border-gray-800">
