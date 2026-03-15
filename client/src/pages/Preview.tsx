@@ -31,7 +31,7 @@ const Preview = () => {
   }
   return (
     <div className="h-screen">{code && <ProjectPreview project={{ current_code: code }as Project}
-      isGenerating={false}/>}</div>
+      isGenerating={false} showEditorPanel={false}/>}</div>
   )
 }
 
