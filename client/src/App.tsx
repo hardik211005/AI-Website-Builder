@@ -8,6 +8,8 @@ import Projects from './pages/Projects'
 import View from './pages/View'
 import Navbar from './components/Navbar'
 import { Toaster } from "sonner"
+import AuthPage from './pages/auth/AuthPage'
+import Settings from './pages/auth/Settings'
 
 const App = () => {
   const {pathname} = useLocation()
@@ -27,6 +29,8 @@ const App = () => {
         <Route path="/projects/:projectId" element={<Projects />} />
         <Route path="/view" element={<View />} />
         <Route path="/community" element={<Community />} />
+        <Route path="/auth/:pathname" element={<AuthPage />} />
+        <Route path="/account/settings" element={<Settings />} />
       </Routes>
     </div>
   )

@@ -12,7 +12,7 @@ const corsOptions = {
     origin: process.env.TRUSTED_ORIGINS?.split(',') || [],
     credentials: true,
 }
-app.use(cors());
+app.use(cors(corsOptions));
 app.all('/api/auth/{*any}', toNodeHandler(auth));
 
 
