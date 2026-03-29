@@ -7,6 +7,7 @@ import Pricing from './pages/Pricing'
 import Projects from './pages/Projects'
 import View from './pages/View'
 import Navbar from './components/Navbar'
+import { Toaster } from "sonner"
 
 const App = () => {
   const {pathname} = useLocation()
@@ -15,6 +16,7 @@ const App = () => {
   || pathname === ('/view')
   return (
     <div>
+      <Toaster/>
       {!hideNavbar && <Navbar/>}
 
       <Routes>
