@@ -160,3 +160,81 @@ Return ONLY the enhanced prompt, nothing else. Make it detailed but concise (2-3
         res.status(500).json({message: 'Internal Server Error'})
     }
 }
+//controller function to get all projects of a user
+export const getUserProject = async (req: Request, res: Response) => {
+    try {
+        const userId = req.userId;
+        if(!userId) {
+            return res.status(401).json({message: 'Unauthorized'})
+        }
+        const {projectId} = req.params;
+        const project = await prisma.websiteProject.findUnique({
+            where: {id: projectId as string, userId: userId!},
+            include: {conversation: {
+                orderBy: {timestamp: 'asc'}
+            },
+            versions: {orderBy: {timestamp: 'asc'}}
+        }
+    })
+    res.json(project)
+        
+    } catch (error:any) {
+        console.error(error.code || error.message);
+        res.status(500).json({message: 'Internal Server Error'})
+    }
+}
+// controller function to get all projects of a user
+export const getUserProjects = async (req: Request, res: Response) => {
+    try {
+        const userId = req.userId;
+        if(!userId) {
+            return res.status(401).json({message: 'Unauthorized'})
+        }
+        const project = await prisma.websiteProject.findMany({
+            where: {userId},
+            orderBy: {updatedAt: "desc"}
+        })
+           
+        res.json({projects: project})
+    
+    
+        
+    } catch (error:any) {
+        console.error(error.code || error.message);
+        res.status(500).json({message: 'Internal Server Error'})
+    }
+}
+
+//controller function to toggle project publish
+export const togglePublish = async (req: Request, res: Response) => {
+    try {
+        const userId = req.userId;
+        if(!userId) {
+            return res.status(401).json({message: 'Unauthorized'})
+        }
+        const {projectId} = req.params;
+        const project = await prisma.websiteProject.findUnique({
+            where: {id: projectId as string, userId: userId!},
+        })
+        if(!project) {
+            return res.status(404).json({message: 'Project not found'})
+        }
+        await prisma.websiteProject.update({
+            where: {id: projectId as string, userId: userId!},
+            data: {isPublished: !project.isPublished}
+        })
+           
+        res.json({message: project.isPublished? 'Project unpublished': 'Project published'})
+    
+    
+        
+    } catch (error:any) {
+        console.error(error.code || error.message);
+        res.status(500).json({message: 'Internal Server Error'})
+    }
+}
+
+//controller function to purchase credits
+export const purchaseCredits = async (req: Request, res: Response) => {
+    }
+
