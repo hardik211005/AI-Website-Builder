@@ -62,7 +62,7 @@ export const createUserProject = async (req: Request, res: Response) => {
         res.json({projectId: project.id})
         // Enhance user prompt
         const promptEnhanceResponse = await openai.chat.completions.create({
-        model: "qwen/qwen3-coder:free",
+        model: "kwaipilot/kat-coder-pro-v2",
         messages: [
             {
                 role: "system",
@@ -100,7 +100,7 @@ Return ONLY the enhanced prompt, nothing else. Make it detailed but concise (2-3
         })
         //Generate website with enhanced prompt
         const codeGenerationResponse = await openai.chat.completions.create({
-        model: "qwen/qwen3-coder:free",
+        model: "kwaipilot/kat-coder-pro-v2",
         messages: [
             {
                 role: "system",
@@ -190,7 +190,7 @@ export const getUserProject = async (req: Request, res: Response) => {
             versions: {orderBy: {timestamp: 'asc'}}
         }
     })
-    res.json(project)
+    res.json({ project})
         
     } catch (error:any) {
         console.error(error.code || error.message);

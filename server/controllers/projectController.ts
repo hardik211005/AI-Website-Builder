@@ -1,7 +1,7 @@
 import { Request, Response } from "express";
 import { PrismaClient } from "../generated/prisma";
 import openai from "../configs/openai.js";
-import { role } from "better-auth/client";
+
 
 const prisma = new PrismaClient();
 
@@ -46,7 +46,7 @@ export const makeRevision = async (req: Request, res: Response) => {
 
         //Enhance user prompt
         const promptEnhanceResponse = await openai.chat.completions.create({
-            model: 'qwen/qwen3-coder:free',
+            model: 'kwaipilot/kat-coder-pro-v2',
             messages: [
                 {
                     role: 'system',
@@ -85,7 +85,7 @@ Return ONLY the enhanced request, nothing else. Keep it concise (1-2 sentences).
 
         //Generate website code
         const codeGenerationResponse = await openai.chat.completions.create({
-            model: 'qwen/qwen3-coder:free',
+            model: 'kwaipilot/kat-coder-pro-v2',
             messages: [
                 {
                     role: 'system',
@@ -175,7 +175,7 @@ export const rollbackToVersion = async (req: Request, res: Response) => {
         if(!project) {
             return res.status(404).json({ message: 'Project not found' });
         }
-        const version = project.versions.find((id:string)=> version.id === versionId);
+        const version = project.versions.find((v: {id: string, code: string}) => v.id === versionId);
 
         if(!version) {
             return res.status(404).json({ message: 'Version not found' });
