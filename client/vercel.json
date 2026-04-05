@@ -1,0 +1,8 @@
+{
+  "rewrites": [
+    {
+      "source": "/api/:path*",
+      "destination": "https://ai-website-builder-4-clgm.onrender.com/api/:path*"
+    }
+  ]
+}
