@@ -13,20 +13,24 @@ const Navbar = () => {
     const  navigate = useNavigate()
 
 
-    const {data:session} = authClient.useSession()
+    const {data:session, isPending} = authClient.useSession()
 
     const getCredits = async () => {
         try {
             const {data} =  await api.get('/api/user/credits');
             setCredits(data.credits);
           } catch (error: any) {
-            toast.error(error?.response?.data?.message || error.message || 'Failed to fetch credits');
+            if (error?.response?.status !== 401) {
+              toast.error(error?.response?.data?.message || error.message || 'Failed to fetch credits');
+            }
             console.log(error);
           }
         }
         useEffect(() => {
             if(session?.user) {
                 getCredits();
+            } else {
+                setCredits(0);
             }
         }, [session?.user])
     return (
