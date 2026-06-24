@@ -46,7 +46,7 @@ export const makeRevision = async (req: Request, res: Response) => {
 
         //Enhance user prompt
         const promptEnhanceResponse = await openai.chat.completions.create({
-            model: 'nvidia/nemotron-3-super-120b-a12b:free',
+            model: 'deepseek/deepseek-chat',
             messages: [
                 {
                     role: 'system',
@@ -85,7 +85,7 @@ Return ONLY the enhanced request, nothing else. Keep it concise (1-2 sentences).
 
         //Generate website code
         const codeGenerationResponse = await openai.chat.completions.create({
-            model: 'nvidia/nemotron-3-super-120b-a12b:free',
+            model: 'deepseek/deepseek-chat',
             messages: [
                 {
                     role: 'system',
